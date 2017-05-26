@@ -1,9 +1,12 @@
 #!/bin/bash
+
+TYPES="lvm nfs" #list of shared types
+
 function getData() {
    OBJTYPE=$1 ; # OID.3.y
    OBJID=$2 ; # OID.3.X.y
 
-              OBJECT="$(xe sr-list type=shared| grep uuid | sed $OBJID'q;d' | sed -n 's/uuid ( RO)                : //p')"
+              OBJECT="$(for e in $TYPES; do  xe sr-list type=$e; done | grep uuid | sed $OBJID'q;d' | sed -n 's/uuid ( RO)                : //p')"
 
  case "$OBJTYPE" in
       4)
