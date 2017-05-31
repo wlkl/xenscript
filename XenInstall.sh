@@ -1,17 +1,17 @@
 
 #!/bin/bash
 
-#remove previous static scripts if they exsist
+#remove previous static scripts if they exists
 rm -f /etc/snmp/procUtil.sh
 rm -f /etc/snmp/memTotal.sh
 rm -f /etc/snmp/memUsed.sh
 
 #start creation of script for CPU utilization
 #setup counters for CPU unique hardware UUID pollers
-let counter1=0
-let totalCpu=0
+counter1=0
+totalCpu=0
 #determine number of CPUs present in system
-let count=$(xe host-cpu-list | grep -c uuid)
+count=$(xe host-cpu-list host-uuid=$(xe host-list name-label=$(hostname) | awk -F: '/uuid/ {print $2}' | sed -n 's/^ //p') | grep -c uuid)
 #begin script output
 echo >>procUtil.sh '#!/bin/bash'
 echo >>procUtil.sh 'querytype=$1'

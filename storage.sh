@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TYPES="lvm nfs" #list of shared types
+TYPES="lvmohba smb nfs" #list of shared types
 
 function getData() {
    OBJTYPE=$1 ; # OID.3.y
