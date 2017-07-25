@@ -34,6 +34,7 @@ esac
 }
 function getNext() {
         REQUEST=$1
+        NUM="$(for e in $TYPES; do  xe sr-list type=$e; done | grep -c uuid)"
         # Always start at .3.1.1
         if [ "$REQUEST" == "" ]; then
                 REQUEST=".3.1.0"
@@ -46,11 +47,11 @@ function getNext() {
         let OBJECTID=$OBJECTID
         let OBJECTTYPE=$OBJECTTYPE
         # Get next entry
-        if [ $OBJECTID -le $(xe sr-list | grep -c uuid) ]; then
+        if [ $OBJECTID -le $NUM ]; then
                 let OBJECTID=${OBJECTID}+1
         fi
 		# Get next category if no more lines
-        if [ $OBJECTID -gt $(xe sr-list | grep -c uuid) ]; then
+        if [ $OBJECTID -gt $NUM ]; then
                 let OBJECTTYPE=${OBJECTTYPE}+1
                 let OBJECTID=1
         fi
